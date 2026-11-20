@@ -192,6 +192,14 @@
             line-height: 1.6;
         }
 
+        #quiz-feedback p {
+            margin: 0 0 12px;
+        }
+
+        #quiz-feedback p:last-child {
+            margin-bottom: 0;
+        }
+
         .correct {
             color: #18794e;
         }
@@ -226,6 +234,11 @@
 
     <section class="card lesson-section engage" id="engage">
         <h2 class="stage-title"><span class="stage-number">1</span> Engage</h2>
+        <div class="activity-prompt">
+            <strong>Today's standard: CCSS 7.EE.B.4a</strong>
+            <p>Solve mathematical problems by writing and solving equations such as \(px + q = r\), where \(p\), \(q\), and \(r\) are rational numbers.</p>
+            <p><strong>Learning target:</strong> I can solve a two-step equation by undoing operations in reverse order and check my solution.</p>
+        </div>
         <p>Start by thinking about what it means to keep an equation balanced. In the equation below, what is happening to \(x\)?</p>
         <p class="equation">\[3x + 5 = 20\]</p>
         <div class="activity-prompt">
@@ -293,7 +306,7 @@
                 <div class="quiz-options" id="quiz-options"></div>
                 <button class="quiz-button" id="check-answer" type="submit">Check answer</button>
             </form>
-            <p id="quiz-feedback" aria-live="polite"></p>
+            <div id="quiz-feedback" aria-live="polite"></div>
             <p id="quiz-score"></p>
             <button class="quiz-button" id="next-question" type="button" hidden>Next question</button>
             <button class="quiz-button" id="restart-quiz" type="button" hidden>Try another set</button>
@@ -423,30 +436,85 @@
             typesetQuiz();
         }
 
+        function signedConstant(value) {
+            return value < 0
+                ? "- " + Math.abs(value)
+                : "+ " + value;
+        }
+
+        function formatXPlus(value) {
+            return value < 0
+                ? "x - " + Math.abs(value)
+                : "x + " + value;
+        }
+
+        function undoConstantInstruction(value) {
+            return value < 0
+                ? "add " + Math.abs(value) + " to both sides"
+                : "subtract " + value + " from both sides";
+        }
+
         function explainAnswer(choice) {
-            const firstStep = problem.a + "x = " + (problem.a * problem.x);
-            const finalStep = "x = " + problem.x;
+            const equation = problem.a + "x " + signedConstant(problem.b) + " = " + problem.c;
+            const firstStep = problem.a + "x = " + problem.c + " - (" + problem.b + ") = " +
+                (problem.a * problem.x);
+            const finalStep = "x = \\frac{" + problem.c + " - (" + problem.b + ")}{" +
+                problem.a + "} = " + problem.x;
 
             if (choice.reason === "correct") {
-                return "Correct! Undo the constant, then divide by " + problem.a +
-                    ": \\(" + firstStep + "\\), so \\(" + finalStep + "\\).";
+                return [
+                    "Correct! Start with \\(" + equation + "\\).",
+                    "Subtract " + problem.b + " from both sides: \\(" + firstStep + "\\).",
+                    "Divide both sides by " + problem.a + ": \\(" + finalStep + "\\).",
+                    "Check by substituting: \\(" + problem.a + "(" + problem.x + ") " +
+                        signedConstant(problem.b) + " = " + problem.c + "\\)."
+                ];
             }
             if (choice.reason === "sign") {
-                return "Not quite. The constant was moved using the same operation instead of its inverse. " +
-                    "Undo it on both sides first: \\(" + firstStep + "\\), then divide by " + problem.a +
-                    " to get \\(" + finalStep + "\\).";
+                const mistakenStep = problem.a + "x = " + problem.c + " + (" + problem.b + ")";
+                const mistakenAnswer = "\\frac{" + problem.c + " + (" + problem.b + ")}{" +
+                    problem.a + "} = " + choice.value;
+
+                return [
+                    "It looks like you may have moved the constant with the same sign instead of using its inverse.",
+                    "Your likely path: \\(" + equation + "\\), then \\(" + mistakenStep +
+                        "\\), which gives \\(x = " + mistakenAnswer + "\\).",
+                    "That sign change is the error. To undo the constant, " +
+                        undoConstantInstruction(problem.b) + ".",
+                    "Correct work: \\(" + firstStep + "\\), then \\(" + finalStep + "\\)."
+                ];
             }
             if (choice.reason === "coefficient") {
-                return "Not quite. You got to \\(" + firstStep + "\\), but stopped before isolating x. " +
-                    "Divide both sides by " + problem.a + " to get \\(" + finalStep + "\\).";
+                return [
+                    "It looks like you may have stopped after undoing the constant.",
+                    "After subtracting " + problem.b + ", you get \\(" + firstStep + "\\). " +
+                        "Your selected answer reports \\(x = " + choice.value + "\\), the value of " +
+                        "\\(" + problem.a + "x\\), as if it were the value of \\(x\\).",
+                    "The coefficient " + problem.a + " is still multiplying x, so divide both sides by " +
+                        problem.a + ": \\(" + finalStep + "\\)."
+                ];
             }
+
             const dividedConstant = problem.x + problem.k;
-            const dividedEquation = problem.k < 0
-                ? "x - " + Math.abs(problem.k)
-                : "x + " + problem.k;
-            return "Not quite. Dividing by " + problem.a + " first is okay, but it does not finish the problem: " +
-                "\\(" + dividedEquation + " = " + dividedConstant + "\\). Undo the constant to get \\(" +
-                finalStep + "\\).";
+            return [
+                "Dividing every term by " + problem.a + " first is valid, but it does not finish the problem.",
+                "That path gives \\(" + formatXPlus(problem.k) + " = \\frac{" + problem.c + "}{" +
+                    problem.a + "} = " + dividedConstant + "\\). You selected " +
+                    "\\(x = " + choice.value + "\\) without undoing the remaining constant.",
+                "To undo the remaining constant, " + undoConstantInstruction(problem.k) +
+                    ": \\(x = \\frac{" + problem.c + "}{" + problem.a + "} - (" +
+                    problem.k + ") = " + problem.x + "\\)."
+            ];
+        }
+
+        function showFeedback(messages, isCorrect) {
+            feedbackElement.replaceChildren();
+            feedbackElement.className = isCorrect ? "correct" : "incorrect";
+            messages.forEach(function (message) {
+                const paragraph = document.createElement("p");
+                paragraph.textContent = message;
+                feedbackElement.appendChild(paragraph);
+            });
         }
 
         quizForm.addEventListener("submit", function (event) {
@@ -463,8 +531,7 @@
                 score += 1;
             }
 
-            feedbackElement.textContent = explainAnswer(choice);
-            feedbackElement.className = isCorrect ? "correct" : "incorrect";
+            showFeedback(explainAnswer(choice), isCorrect);
             optionsElement.querySelectorAll("input").forEach(function (radio) {
                 radio.disabled = true;
             });
