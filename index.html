@@ -3,10 +3,207 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Basic HTML Page</title>
+    <title>Solving Two-Step Equations</title>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)']],
+                displayMath: [['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+    <style>
+        body {
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fb;
+            color: #243247;
+        }
+
+        h1 {
+            color: #1c5d99;
+            text-align: center;
+        }
+
+        .card {
+            background: white;
+            border: 2px solid #d6e4f0;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .equation {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #263238;
+        }
+
+        ol {
+            line-height: 1.6;
+        }
+
+        .step {
+            margin-bottom: 12px;
+        }
+
+        .answer {
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #18794e;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .choices {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .choice {
+            padding: 12px;
+            border: 2px solid #1c5d99;
+            border-radius: 8px;
+            background: white;
+            color: #1c5d99;
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+
+        .choice:hover {
+            background: #edf5fc;
+        }
+
+        #feedback {
+            min-height: 28px;
+            margin-top: 16px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .correct {
+            color: #18794e;
+        }
+
+        .incorrect {
+            color: #b42318;
+        }
+
+        @media (max-width: 500px) {
+            .choices {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello, World!</h1>
-    <p>This is a basic HTML page.</p>
+    <h1>Solving Two-Step Equations</h1>
+
+    <div class="card">
+        <h2>Example</h2>
+        <p class="equation">\[3x + 5 = 20\]</p>
+    </div>
+
+    <div class="card">
+        <h2>Steps</h2>
+        <ol>
+            <li class="step">
+                <strong>Subtract 5 from both sides.</strong><br>
+                \[3x + 5 - 5 = 20 - 5\]<br>
+                \[3x = 15\]
+            </li>
+            <li class="step">
+                <strong>Divide both sides by 3.</strong><br>
+                \[\frac{3x}{3} = \frac{15}{3}\]<br>
+                \[x = 5\]
+            </li>
+            <li class="step">
+                <strong>Check the answer.</strong><br>
+                Substitute 5 for x:<br>
+                \[3(5) + 5 = 20\]<br>
+                \[15 + 5 = 20\]
+            </li>
+        </ol>
+    </div>
+
+    <div class="card answer">
+        The solution is \(\boxed{x = 5}\).
+    </div>
+
+    <div class="card">
+        <h2>Instruction Video</h2>
+        <div class="video-wrapper">
+            <iframe
+                src="https://www.youtube-nocookie.com/embed/tmlWOzZyd3c"
+                title="Mr. Kyle Phillips Problem Solver - Multi-Step Equations"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen>
+            </iframe>
+        </div>
+        <p>
+            <a href="https://www.youtube.com/watch?v=tmlWOzZyd3c" target="_blank" rel="noopener">
+                Open this video on YouTube
+            </a>
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>Check Your Understanding</h2>
+        <p>Solve the equation:</p>
+        <p class="equation">\[2x - 7 = 9\]</p>
+        <div class="choices">
+            <button class="choice" type="button" onclick="checkAnswer(this, 'x = 1')">\(x = 1\)</button>
+            <button class="choice" type="button" onclick="checkAnswer(this, 'x = 8')">\(x = 8\)</button>
+            <button class="choice" type="button" onclick="checkAnswer(this, 'x = 16')">\(x = 16\)</button>
+            <button class="choice" type="button" onclick="checkAnswer(this, 'x = 2')">\(x = 2\)</button>
+        </div>
+        <p id="feedback" aria-live="polite"></p>
+    </div>
+
+    <script>
+        function checkAnswer(button, answer) {
+            const feedback = document.getElementById("feedback");
+
+            if (answer === "x = 8") {
+                feedback.textContent = "Correct! 2(8) - 7 = 9.";
+                feedback.className = "correct";
+            } else if (answer === "x = 1") {
+                feedback.textContent = "Incorrect. You did not solve for x. After adding 7 to both sides, 2x = 16. Then divide 16 by 2.";
+                feedback.className = "incorrect";
+            } else if (answer === "x = 16") {
+                feedback.textContent = "Incorrect. This is the result after adding 7 to both sides, but the equation is 2x = 16. Divide both sides by 2 to finish.";
+                feedback.className = "incorrect";
+            } else if (answer === "x = 2") {
+                feedback.textContent = "Incorrect. You divided or subtracted too soon. First add 7 to both sides, giving 2x = 16, then divide by 2.";
+                feedback.className = "incorrect";
+            } else {
+                feedback.textContent = "Not quite. Try again!";
+                feedback.className = "incorrect";
+            }
+        }
+    </script>
 </body>
 </html>
