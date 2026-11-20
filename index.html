@@ -15,7 +15,7 @@
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
     <style>
         body {
-            max-width: 700px;
+            max-width: 780px;
             margin: 40px auto;
             padding: 20px;
             font-family: Arial, sans-serif;
@@ -34,6 +34,79 @@
             border-radius: 10px;
             padding: 20px;
             margin: 20px 0;
+        }
+
+        .intro {
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .lesson-nav {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 24px 0;
+        }
+
+        .lesson-nav a {
+            padding: 12px 8px;
+            border-radius: 8px;
+            background: #e6eef7;
+            color: #1c5d99;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .lesson-nav a:hover {
+            background: #d6e4f0;
+        }
+
+        .lesson-section {
+            scroll-margin-top: 20px;
+            border-left: 6px solid #1c5d99;
+        }
+
+        .engage {
+            border-left-color: #df9b26;
+        }
+
+        .explore {
+            border-left-color: #3478c8;
+        }
+
+        .apply {
+            border-left-color: #23845b;
+        }
+
+        .reflect {
+            border-left-color: #8154a8;
+        }
+
+        .stage-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 0;
+        }
+
+        .stage-number {
+            display: inline-flex;
+            width: 32px;
+            height: 32px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #e6eef7;
+            color: #1c5d99;
+            font-size: 1rem;
+        }
+
+        .activity-prompt {
+            padding: 14px;
+            border-radius: 8px;
+            background: #f4f7fb;
+            line-height: 1.6;
         }
 
         .equation {
@@ -75,32 +148,48 @@
             border: 0;
         }
 
-        .choices {
+        .quiz-options {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 12px;
-            margin-top: 16px;
+            margin: 16px 0;
         }
 
-        .choice {
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             padding: 12px;
             border: 2px solid #1c5d99;
             border-radius: 8px;
             background: white;
             color: #1c5d99;
-            font-size: 1.1rem;
             cursor: pointer;
         }
 
-        .choice:hover {
+        .quiz-option:hover {
             background: #edf5fc;
         }
 
-        #feedback {
+        .quiz-button {
+            padding: 10px 16px;
+            border: 0;
+            border-radius: 8px;
+            background: #1c5d99;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .quiz-button:disabled {
+            background: #718096;
+            cursor: not-allowed;
+        }
+
+        #quiz-feedback {
             min-height: 28px;
             margin-top: 16px;
-            text-align: center;
-            font-weight: bold;
+            line-height: 1.6;
         }
 
         .correct {
@@ -112,52 +201,52 @@
         }
 
         @media (max-width: 500px) {
-            .choices {
+            .quiz-options {
                 grid-template-columns: 1fr;
+            }
+
+            .lesson-nav {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
 </head>
 <body>
-    <h1>Solving Two-Step Equations</h1>
+    <header>
+        <h1>Solving Two-Step Equations</h1>
+        <p class="intro">Work through the lesson in four stages: engage with the idea, explore a solution, apply your learning, and reflect on your strategy.</p>
+    </header>
 
-    <div class="card">
-        <h2>Example</h2>
+    <nav class="lesson-nav" aria-label="Lesson sections">
+        <a href="#engage">1. Engage</a>
+        <a href="#explore">2. Explore</a>
+        <a href="#apply">3. Apply</a>
+        <a href="#reflect">4. Reflect</a>
+    </nav>
+
+    <section class="card lesson-section engage" id="engage">
+        <h2 class="stage-title"><span class="stage-number">1</span> Engage</h2>
+        <p>Start by thinking about what it means to keep an equation balanced. In the equation below, what is happening to \(x\)?</p>
         <p class="equation">\[3x + 5 = 20\]</p>
-    </div>
+        <div class="activity-prompt">
+            <strong>Think, then share:</strong>
+            <ul>
+                <li>What operations are being performed on \(x\)?</li>
+                <li>What could you do to undo those operations?</li>
+                <li>Why should the same operation be applied to both sides?</li>
+            </ul>
+            Try an idea on paper before moving on.
+        </div>
+    </section>
 
-    <div class="card">
-        <h2>Steps</h2>
-        <ol>
-            <li class="step">
-                <strong>Subtract 5 from both sides.</strong><br>
-                \[3x + 5 - 5 = 20 - 5\]<br>
-                \[3x = 15\]
-            </li>
-            <li class="step">
-                <strong>Divide both sides by 3.</strong><br>
-                \[\frac{3x}{3} = \frac{15}{3}\]<br>
-                \[x = 5\]
-            </li>
-            <li class="step">
-                <strong>Check the answer.</strong><br>
-                Substitute 5 for x:<br>
-                \[3(5) + 5 = 20\]<br>
-                \[15 + 5 = 20\]
-            </li>
-        </ol>
-    </div>
-
-    <div class="card answer">
-        The solution is \(\boxed{x = 5}\).
-    </div>
-
-    <div class="card">
-        <h2>Instruction Video</h2>
+    <section class="card lesson-section explore" id="explore">
+        <h2 class="stage-title"><span class="stage-number">2</span> Explore</h2>
+        <p>Watch the lesson and notice how inverse operations help isolate the variable. Pause the video to predict the next step before it is shown.</p>
         <div class="video-wrapper">
             <iframe
-                src="https://www.youtube.com/embed/tmlWOzZyd3c"
-                title="Mr. Kyle Phillips Problem Solver - Multi-Step Equations"
+                src="https://www.youtube-nocookie.com/embed/tmlWOzZyd3c"
+                title="Multi-Step Equations with Infinite and No Solutions"
+                loading="lazy"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin"
                 allowfullscreen>
@@ -168,42 +257,248 @@
                 Open this video on YouTube
             </a>
         </p>
-    </div>
 
-    <div class="card">
-        <h2>Check Your Understanding</h2>
-        <p>Solve the equation:</p>
-        <p class="equation">\[2x - 7 = 9\]</p>
-        <div class="choices">
-            <button class="choice" type="button" onclick="checkAnswer(this, 'x = 1')">\(x = 1\)</button>
-            <button class="choice" type="button" onclick="checkAnswer(this, 'x = 8')">\(x = 8\)</button>
-            <button class="choice" type="button" onclick="checkAnswer(this, 'x = 16')">\(x = 16\)</button>
-            <button class="choice" type="button" onclick="checkAnswer(this, 'x = 2')">\(x = 2\)</button>
+        <h3>Explore a worked example</h3>
+        <p class="equation">\[3x + 5 = 20\]</p>
+        <ol>
+            <li class="step">
+                <strong>Undo adding 5 by subtracting 5 from both sides.</strong><br>
+                \[3x + 5 - 5 = 20 - 5\]<br>
+                \[3x = 15\]
+            </li>
+            <li class="step">
+                <strong>Undo multiplying by 3 by dividing both sides by 3.</strong><br>
+                \[\frac{3x}{3} = \frac{15}{3}\]<br>
+                \[x = 5\]
+            </li>
+            <li class="step">
+                <strong>Check by substituting 5 for \(x\).</strong><br>
+                \[3(5) + 5 = 20\]<br>
+                \[15 + 5 = 20\]
+            </li>
+        </ol>
+        <p class="answer">The solution is \(\boxed{x = 5}\).</p>
+        <div class="activity-prompt">
+            <strong>Notice:</strong> We undo addition before undoing multiplication. Explain why this order gets \(x\) by itself.
         </div>
-        <p id="feedback" aria-live="polite"></p>
-    </div>
+    </section>
+
+    <section class="card lesson-section apply" id="apply">
+        <h2 class="stage-title"><span class="stage-number">3</span> Apply</h2>
+        <p>Now solve five randomly generated two-step equations. Choose an answer to get feedback about your reasoning.</p>
+        <div id="quiz-card">
+            <p id="quiz-progress" aria-live="polite"></p>
+            <form id="quiz-form">
+                <p class="equation" id="quiz-equation"></p>
+                <div class="quiz-options" id="quiz-options"></div>
+                <button class="quiz-button" id="check-answer" type="submit">Check answer</button>
+            </form>
+            <p id="quiz-feedback" aria-live="polite"></p>
+            <p id="quiz-score"></p>
+            <button class="quiz-button" id="next-question" type="button" hidden>Next question</button>
+            <button class="quiz-button" id="restart-quiz" type="button" hidden>Try another set</button>
+        </div>
+    </section>
+
+    <section class="card lesson-section reflect" id="reflect">
+        <h2 class="stage-title"><span class="stage-number">4</span> Reflect</h2>
+        <p>Summarize your strategy in your own words. Record your thoughts in your notes or discuss them with a partner.</p>
+        <ol>
+            <li>How do you decide which operation to undo first?</li>
+            <li>Why must you perform the same operation on both sides of an equation?</li>
+            <li>How can substituting your answer help you check your work?</li>
+        </ol>
+        <div class="activity-prompt">
+            <strong>Self-check:</strong> Can you identify the operations, undo them in reverse order, and verify your solution? If one step still feels uncertain, revisit the worked example before trying another question set.
+        </div>
+    </section>
 
     <script>
-        function checkAnswer(button, answer) {
-            const feedback = document.getElementById("feedback");
+        const totalQuestions = 5;
+        const quizCard = document.getElementById("quiz-card");
+        const quizForm = document.getElementById("quiz-form");
+        const equationElement = document.getElementById("quiz-equation");
+        const optionsElement = document.getElementById("quiz-options");
+        const progressElement = document.getElementById("quiz-progress");
+        const feedbackElement = document.getElementById("quiz-feedback");
+        const scoreElement = document.getElementById("quiz-score");
+        const checkButton = document.getElementById("check-answer");
+        const nextButton = document.getElementById("next-question");
+        const restartButton = document.getElementById("restart-quiz");
+        let questionNumber = 0;
+        let score = 0;
+        let problem;
 
-            if (answer === "x = 8") {
-                feedback.textContent = "Correct! 2(8) - 7 = 9.";
-                feedback.className = "correct";
-            } else if (answer === "x = 1") {
-                feedback.textContent = "Incorrect. You did not solve for x. After adding 7 to both sides, 2x = 16. Then divide 16 by 2.";
-                feedback.className = "incorrect";
-            } else if (answer === "x = 16") {
-                feedback.textContent = "Incorrect. This is the result after adding 7 to both sides, but the equation is 2x = 16. Divide both sides by 2 to finish.";
-                feedback.className = "incorrect";
-            } else if (answer === "x = 2") {
-                feedback.textContent = "Incorrect. You divided or subtracted too soon. First add 7 to both sides, giving 2x = 16, then divide by 2.";
-                feedback.className = "incorrect";
-            } else {
-                feedback.textContent = "Not quite. Try again!";
-                feedback.className = "incorrect";
+        function randomInteger(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function createProblem() {
+            let a;
+            let x;
+            let k;
+            let choices;
+
+            do {
+                a = randomInteger(2, 6);
+                x = randomInteger(-6, 9);
+                if (x === 0) {
+                    continue;
+                }
+                k = randomInteger(-4, 4);
+                if (k === 0) {
+                    continue;
+                }
+                choices = [
+                    { value: x, reason: "correct" },
+                    { value: x + 2 * k, reason: "sign" },
+                    { value: a * x, reason: "coefficient" },
+                    { value: x + k, reason: "unfinished" }
+                ];
+            } while (x === 0 || k === 0 || new Set(choices.map(function (choice) {
+                return choice.value;
+            })).size !== choices.length);
+
+            for (let i = choices.length - 1; i > 0; i--) {
+                const j = randomInteger(0, i);
+                [choices[i], choices[j]] = [choices[j], choices[i]];
+            }
+
+            return {
+                a: a,
+                x: x,
+                k: k,
+                b: a * k,
+                c: a * (x + k),
+                choices: choices
+            };
+        }
+
+        function typesetQuiz() {
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise([quizCard]);
             }
         }
+
+        function clearQuizMath() {
+            if (window.MathJax && window.MathJax.typesetClear) {
+                window.MathJax.typesetClear([quizCard]);
+            }
+        }
+
+        function showQuestion() {
+            clearQuizMath();
+            problem = createProblem();
+            questionNumber += 1;
+            const constant = problem.b < 0
+                ? "- " + Math.abs(problem.b)
+                : "+ " + problem.b;
+
+            progressElement.textContent = "Question " + questionNumber + " of " + totalQuestions;
+            equationElement.textContent = "\\(" + problem.a + "x " + constant + " = " + problem.c + "\\)";
+            optionsElement.replaceChildren();
+            feedbackElement.textContent = "";
+            feedbackElement.className = "";
+            scoreElement.textContent = "Score: " + score + " / " + totalQuestions;
+            checkButton.hidden = false;
+            checkButton.disabled = false;
+            nextButton.hidden = true;
+            restartButton.hidden = true;
+
+            problem.choices.forEach(function (choice, index) {
+                const label = document.createElement("label");
+                const radio = document.createElement("input");
+                const answer = document.createElement("span");
+
+                label.className = "quiz-option";
+                radio.type = "radio";
+                radio.name = "answer";
+                radio.value = String(index);
+                radio.required = true;
+                answer.textContent = "\\(x = " + choice.value + "\\)";
+                label.append(radio, answer);
+                optionsElement.appendChild(label);
+            });
+
+            typesetQuiz();
+        }
+
+        function explainAnswer(choice) {
+            const firstStep = problem.a + "x = " + (problem.a * problem.x);
+            const finalStep = "x = " + problem.x;
+
+            if (choice.reason === "correct") {
+                return "Correct! Undo the constant, then divide by " + problem.a +
+                    ": \\(" + firstStep + "\\), so \\(" + finalStep + "\\).";
+            }
+            if (choice.reason === "sign") {
+                return "Not quite. The constant was moved using the same operation instead of its inverse. " +
+                    "Undo it on both sides first: \\(" + firstStep + "\\), then divide by " + problem.a +
+                    " to get \\(" + finalStep + "\\).";
+            }
+            if (choice.reason === "coefficient") {
+                return "Not quite. You got to \\(" + firstStep + "\\), but stopped before isolating x. " +
+                    "Divide both sides by " + problem.a + " to get \\(" + finalStep + "\\).";
+            }
+            const dividedConstant = problem.x + problem.k;
+            const dividedEquation = problem.k < 0
+                ? "x - " + Math.abs(problem.k)
+                : "x + " + problem.k;
+            return "Not quite. Dividing by " + problem.a + " first is okay, but it does not finish the problem: " +
+                "\\(" + dividedEquation + " = " + dividedConstant + "\\). Undo the constant to get \\(" +
+                finalStep + "\\).";
+        }
+
+        quizForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+            const selected = quizForm.querySelector('input[name="answer"]:checked');
+
+            if (!selected) {
+                return;
+            }
+
+            const choice = problem.choices[Number(selected.value)];
+            const isCorrect = choice.reason === "correct";
+            if (isCorrect) {
+                score += 1;
+            }
+
+            feedbackElement.textContent = explainAnswer(choice);
+            feedbackElement.className = isCorrect ? "correct" : "incorrect";
+            optionsElement.querySelectorAll("input").forEach(function (radio) {
+                radio.disabled = true;
+            });
+            checkButton.hidden = true;
+            nextButton.hidden = false;
+            nextButton.textContent = questionNumber === totalQuestions ? "See results" : "Next question";
+            scoreElement.textContent = "Score: " + score + " / " + totalQuestions;
+            typesetQuiz();
+        });
+
+        nextButton.addEventListener("click", function () {
+            if (questionNumber < totalQuestions) {
+                showQuestion();
+                return;
+            }
+
+            clearQuizMath();
+            progressElement.textContent = "Practice complete";
+            equationElement.textContent = "";
+            optionsElement.replaceChildren();
+            feedbackElement.textContent = "You scored " + score + " out of " + totalQuestions + ".";
+            feedbackElement.className = score === totalQuestions ? "correct" : "";
+            nextButton.hidden = true;
+            restartButton.hidden = false;
+            typesetQuiz();
+        });
+
+        restartButton.addEventListener("click", function () {
+            questionNumber = 0;
+            score = 0;
+            showQuestion();
+        });
+
+        showQuestion();
     </script>
 </body>
 </html>
